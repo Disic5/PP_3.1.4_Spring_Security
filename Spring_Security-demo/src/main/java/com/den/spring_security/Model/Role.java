@@ -1,5 +1,6 @@
 package com.den.spring_security.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -13,15 +14,18 @@ public class Role implements GrantedAuthority {
     private Long id;
     private String name;
 
+    @JsonIgnore
+    @Transient
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
     public Role() {
     }
 
-    public Role(Long id, String name) {
+    public Role(Long id, String name,Set<User> users) {
         this.id = id;
         this.name = name;
+        this.users = users;
     }
 
     public Long getId() {

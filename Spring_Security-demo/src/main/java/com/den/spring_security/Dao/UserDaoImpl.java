@@ -4,6 +4,8 @@ import com.den.spring_security.Model.Role;
 import com.den.spring_security.Model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -23,7 +25,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void add(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         entityManager.persist(user);
     }
 
@@ -53,5 +55,12 @@ public class UserDaoImpl implements UserDao {
         Query query = entityManager.createQuery("select u from User u where u.email=:email", User.class);
         query.setParameter("email", email);
         return (User) query.getSingleResult();
+    }
+
+    @Transactional
+    @Override
+    public void addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        entityManager.persist(user);
     }
 }

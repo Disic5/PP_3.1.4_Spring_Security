@@ -1,6 +1,5 @@
 package com.den.spring_security.Service;
 
-import com.den.spring_security.Config.PasswordConfig;
 import com.den.spring_security.Dao.UserDao;
 import com.den.spring_security.Model.Role;
 import com.den.spring_security.Model.User;
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,17 +17,18 @@ import java.util.Set;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserDao userDao;
-    private final PasswordConfig passwordConfig;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, PasswordConfig passwordConfig) {
+    public UserServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
-        this.passwordConfig = passwordConfig;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     @Override
     public void add(User user, Set<Role> roles) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(roles);
         userDao.add(user);
     }
@@ -41,10 +42,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void change(User user, Set<Role> roles) {
-        user.setPassword(passwordConfig.passwordEncoder().encode(user.getPassword()));
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setRoles(roles);
+//        userDao.change(user, roles);
+        if (!user.getPassword().equals(findUserById(user.getId()).getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         user.setRoles(roles);
         userDao.change(user, roles);
     }
+
+
 
     @Override
     public List<User> listUsers() {
@@ -59,6 +67,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User findUserByEmail(String email) {
         return userDao.findUserByEmail(email);
+    }
+
+
+    @Override
+    public void addUser(User user) {
+        userDao.addUser(user);
     }
 
     @Override

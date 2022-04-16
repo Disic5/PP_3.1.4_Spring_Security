@@ -1,5 +1,6 @@
 package com.den.spring_security.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,10 +19,11 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
+    @JsonIgnore
     @Transient
     private String passwordConfirm;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch =  FetchType.LAZY)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "users_id"),
@@ -80,6 +82,7 @@ public class User implements UserDetails {
         this.passwordConfirm = passwordConfirm;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
