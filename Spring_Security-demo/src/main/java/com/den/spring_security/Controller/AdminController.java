@@ -18,12 +18,10 @@ public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
 
-
     @Autowired
     public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-
     }
 
     @GetMapping()
@@ -43,16 +41,14 @@ public class AdminController {
     }
 
     @PostMapping("/edit")
-    public String update(@ModelAttribute("user") User user, @RequestParam("listRoles") ArrayList<Long> roles) {
+    public String update(@ModelAttribute("user") User user, @RequestParam("listRoles") ArrayList<Long> roles){
         userService.change(user, roleService.findRoles(roles));
         return "redirect:/admin";
     }
 
     @PostMapping("/new")
-    public String addUser(User user, @RequestParam("listRoles") ArrayList<Long> roles) {
-//        userService.add(user,roleService.findRoles(roles));
+    public String addUser (User user, @RequestParam("listRoles") ArrayList<Long> roles){
         userService.add(user, user.getRoles());
         return "redirect:/admin";
     }
 }
-

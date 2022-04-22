@@ -35,16 +35,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public void delete(long id) {
+    public void delete (long id) {
         userDao.delete(id);
     }
 
     @Transactional
     @Override
-    public void change(User user, Set<Role> roles) {
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setRoles(roles);
-//        userDao.change(user, roles);
+    public void change (User user, Set<Role> roles) {
         if (!user.getPassword().equals(findUserById(user.getId()).getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
@@ -52,27 +49,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userDao.change(user, roles);
     }
 
-
-
     @Override
-    public List<User> listUsers() {
+    public List<User> listUsers () {
         return userDao.listUsers();
     }
 
     @Override
-    public User findUserById(long id) {
+    public User findUserById (long id) {
         return userDao.findUserById(id);
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public User findUserByEmail (String email) {
         return userDao.findUserByEmail(email);
-    }
-
-
-    @Override
-    public void addUser(User user) {
-        userDao.addUser(user);
     }
 
     @Override

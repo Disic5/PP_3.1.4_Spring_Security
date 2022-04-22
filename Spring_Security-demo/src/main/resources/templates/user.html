@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <!-- Required meta tags -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -17,10 +17,10 @@
 
     <div class="container-fluid">
         <div class="collapse navbar-collapse show" id="navbarDark">
-            <ul class="navbar-nav me-auto mb-2 mb-xl-0">
-                <span class="align-middle font-weight-bold mr-1" th:text="${user.getName()}"></span></b>
-                <span class="align-middle mr-1">with roles:</span>
-                <span class="align-middle" th:each="role:${user.getRoles()}" th:text="${role.getName}">
+            <ul class="navbar-nav me-auto mb-2 mb-xl-0" id="nabBarUser">
+                <span class="align-middle font-weight-bold mr-1"></span></b>
+                <span class="align-middle mr-1"></span>
+                <span class="align-middle">
                     </span>
             </ul>
         </div>
@@ -63,15 +63,9 @@
                                         <th>Email</th>
                                         <th>Roles</th>
                                     </tr>
-
-                                    <td th:text="${user.getId()}"></td>
-                                    <td th:text="${user.getName()}"></td>
-                                    <td th:text="${user.getLastName()}"></td>
-                                    <td th:text="${user.getEmail()}"></td>
-
-                                    <td>
-                                        <li th:each="role: ${user.getRoles()}" th:text="${role.getName()}"></li>
-                                    </td>
+                                    <tbody id="User">
+                                    <!-- user.js -->
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -94,4 +88,3 @@
         crossorigin="anonymous"></script>
 </body>
 </html>
-

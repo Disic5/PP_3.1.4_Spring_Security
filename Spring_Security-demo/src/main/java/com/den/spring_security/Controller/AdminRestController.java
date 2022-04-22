@@ -1,15 +1,9 @@
 package com.den.spring_security.Controller;
 
-import com.den.spring_security.Model.Role;
 import com.den.spring_security.Model.User;
-import com.den.spring_security.Service.RoleService;
 import com.den.spring_security.Service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
@@ -17,12 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AdminRestController {
 
     private final UserService userService;
-    private final RoleService roleService;
 
     @Autowired
-    public AdminRestController(UserService userService, RoleService roleService) {
+    public AdminRestController(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
     @GetMapping()
@@ -36,9 +28,9 @@ public class AdminRestController {
     }
 
     @PostMapping()
-    public void addUser(@RequestBody User user){
-//        user.setRoles(roleService.getRoles(roles));
-        userService.addUser(user);
+    public List<User> addUser(@RequestBody User user){
+        userService.add(user, user.getRoles());
+        return userService.listUsers();
     }
 
     @PutMapping()

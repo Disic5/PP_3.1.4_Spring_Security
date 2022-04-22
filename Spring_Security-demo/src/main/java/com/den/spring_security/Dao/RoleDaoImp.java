@@ -2,7 +2,6 @@ package com.den.spring_security.Dao;
 
 import com.den.spring_security.Model.Role;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -25,25 +24,5 @@ public class RoleDaoImp implements RoleDao {
 
     public List<Role> getAllRoles() {
         return entityManager.createQuery("select r from Role r").getResultList();
-    }
-
-    @Override
-    public Role getRoleByName(String name) {
-        return entityManager.createQuery("select r from Role r where r.name=:name",Role.class)
-                .setParameter("name",name).getSingleResult();
-    }
-
-    @Override
-    public HashSet<Role> getRoles(String[] arrayRoles) {
-        Set<Role> roleSet = new HashSet<>();
-        if (arrayRoles != null){
-            for (String role: arrayRoles){
-                roleSet.add(getRoleByName(role));
-            }
-            return (HashSet<Role>) roleSet;
-        }else {
-            return null;
-        }
-
     }
 }
