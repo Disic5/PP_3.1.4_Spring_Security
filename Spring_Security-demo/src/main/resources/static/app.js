@@ -47,8 +47,8 @@ fetch(url, {mode: 'cors'})
     })
 
 // ADD user
-const addUserForm = document.querySelector('#addUser')
 
+const addUserForm = document.querySelector('#addUser')
 const addName = document.getElementById('name3')
 const addLastName = document.getElementById('lastname3')
 const addEmail = document.getElementById('email3')
@@ -59,6 +59,7 @@ addUserForm.addEventListener('submit', (e) => {
     e.preventDefault();
     fetch(url, {
         method: 'POST',
+       // redirect: 'manual',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -77,6 +78,9 @@ addUserForm.addEventListener('submit', (e) => {
             users = data;
             renderUsers(users);
         })
+        .then(res =>{
+            document.getElementById('ta_samaya_knopka').click()
+        })
 })
 
 const on = (element, event, selector, handler) => {
@@ -86,6 +90,7 @@ const on = (element, event, selector, handler) => {
         }
     })
 }
+
 
 // EDIT user
 on(document, 'click', '#edit-user', e => {
